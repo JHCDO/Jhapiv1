@@ -1,6 +1,6 @@
 {
   "name": "Jhapiv1",
-  "tagline": "Project containing all the Jotihunt API V1 libaries and the example project",
+  "tagline": "Library platform for the Jotihunt",
   "body": "### Installation\r\n\r\n\r\n### Usage\r\n\r\n```\r\nJotihunt.Api api = Jotihunt.getApiInstance();\r\napi.getNieuws().enqueue(new Callback<Nieuws>() {\r\n  @Override\r\n  public void onResponse(Call<Nieuws> call, Response<Nieuws> response) {\r\n    Nieuws nieuws = response.body();\r\n    for(Nieuws.Item item : nieuws.getItems()) {\r\n      Log.i(\"test\", item.getTitle());\r\n    }    \r\n  }\r\n\r\n  @Override\r\n  public void onFailure(Call<Nieuws> call, Throwable t) {\r\n   \r\n  }\r\n});\r\n```\r\n### Authors and Contributors\r\n@Dingenis\r\n\r\n### Support or Contact\r\nContact me at dingenis.sieger@gmail.com",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
