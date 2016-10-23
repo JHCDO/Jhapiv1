@@ -1,13 +1,13 @@
 package nl.jhcdo.jotihunt;
 
 
-import nl.jhcdo.jotihunt.net.data.structures.Bericht;
-import nl.jhcdo.jotihunt.net.data.structures.Hint;
-import nl.jhcdo.jotihunt.net.data.structures.Nieuws;
-import nl.jhcdo.jotihunt.net.data.structures.Opdracht;
-import nl.jhcdo.jotihunt.net.data.structures.Scorelijst;
+import nl.jhcdo.jotihunt.net.model.Bericht;
+import nl.jhcdo.jotihunt.net.model.Hint;
+import nl.jhcdo.jotihunt.net.model.Nieuws;
+import nl.jhcdo.jotihunt.net.model.Opdracht;
+import nl.jhcdo.jotihunt.net.model.Scorelijst;
 
-import nl.jhcdo.jotihunt.net.data.structures.Status;
+import nl.jhcdo.jotihunt.net.model.Status;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -51,19 +51,19 @@ public final class Jotihunt {
          * Gets a call for retrieving the Opdracht.
          * */
         @GET("/api/1.0/opdracht")
-        Call<Opdracht> getOpdracht();
+        Call<Opdracht.Container> getOpdracht();
 
         /**
          * Gets a call for retrieving the Hint.
          * */
         @GET("/api/1.0/hint")
-        Call<Hint> getHint();
+        Call<Hint.Container> getHint();
 
         /**
          * Gets a call for retrieving the Nieuws.
          * */
         @GET("/api/1.0/nieuws")
-        Call<Nieuws> getNieuws();
+        Call<Nieuws.Container> getNieuws();
 
         /**
          * Gets a call for retrieving the Scorelijst.

@@ -1,4 +1,4 @@
-package nl.jhcdo.jotihunt.net.data.structures;
+package nl.jhcdo.jotihunt.net.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -74,7 +74,7 @@ public class Status {
      * @since 14-10-2016
      * Container for the Status of each team.
      */
-    public static class Container {
+    public static class Container extends BaseModel {
 
         /**
          * The list of Statuses.

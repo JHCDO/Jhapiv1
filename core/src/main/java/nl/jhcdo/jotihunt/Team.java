@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName;
  * @since 8-10-2016
  * Defines the enumeration for a Team.
  */
-
 public enum Team {
 
     /**
@@ -74,6 +73,8 @@ public enum Team {
 
     /**
      * Parses a Team from a string.
+     *
+     * @param name The name to parse the Team from.
      * */
     public static Team parse(String name) {
         switch (name) {

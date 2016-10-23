@@ -8,10 +8,12 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import nl.jhcdo.jotihunt.Jotihunt;
-import nl.jhcdo.jotihunt.net.data.structures.Bericht;
-import nl.jhcdo.jotihunt.net.data.structures.Nieuws;
+import nl.jhcdo.jotihunt.net.model.Bericht;
+import nl.jhcdo.jotihunt.net.model.Nieuws;
 import nl.jhcdo.jotihunt.net.enumeration.FunctionType;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,12 +27,15 @@ import retrofit2.Response;
  */
 public class NieuwsView extends FrameLayout implements AdapterView.OnItemClickListener, Callback<Bericht>, WebViewSwipeRefreshLayout.CanChildScrollUpListener {
 
+    /**
+     * Defines a tag for this class.
+     * */
     private static final String TAG = "NieuwsView";
 
     /**
-     * Value holding the ID of the last item, is null if there's no last item.
+     * Value holding the last item, is null if there's no last item.
      * */
-    protected String lastItemId;
+    protected Nieuws lastItem;
 
     /**
      * Value indicating if a Nieuws.Item has been opened.
@@ -50,19 +55,23 @@ public class NieuwsView extends FrameLayout implements AdapterView.OnItemClickLi
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.news_view, this);
 
-        WebView webView = (WebView)view.findViewById(R.id.news_view_web);
-        webView.setVisibility(INVISIBLE);
-
         NieuwsListView list = (NieuwsListView)view.findViewById(R.id.news_view_list);
         list.setOnItemClickListener(this);
         list.refresh();
     }
 
     /**
-     * Gets the value indicating if a Nieuws.Item has been opened.
+     * Gets the value indicating if a Nieuws has been opened.
      * */
     public boolean isOpened() {
         return isOpened;
+    }
+
+    /**
+     * Returns the current/last item depending on the state of isOpened.
+     * */
+    public Nieuws getItem() {
+        return lastItem;
     }
 
     /**
@@ -77,7 +86,7 @@ public class NieuwsView extends FrameLayout implements AdapterView.OnItemClickLi
      * Gets the WebView of hte NieuwsView.
      * */
     protected WebView getWebView() {
-        return (WebView) findViewById(R.id.news_view_web);
+        return (WebView) findViewById(R.id.news_view_web_view);
     }
 
     /**
@@ -88,14 +97,28 @@ public class NieuwsView extends FrameLayout implements AdapterView.OnItemClickLi
     }
 
     /**
+     * Gets the TextView that is the title of the WebView.
+     * */
+    protected TextView getWebTitle() {
+        return (TextView)findViewById(R.id.news_view_web_title);
+    }
+
+    /**
+     * Gets the LinearLayout that contains the WebView and the TextView.
+     * */
+    protected LinearLayout getWebLayout() {
+        return (LinearLayout)findViewById(R.id.news_view_web_layout);
+    }
+
+    /**
      * Refreshes the current page or the items.
      * */
     public void refresh() {
-        if(isOpened && lastItemId != null) {
+        if(isOpened && lastItem != null) {
             /**
              * Refresh the current opened item.
              * */
-            Jotihunt.getApiInstance().getBericht(FunctionType.NIEUWS, lastItemId).enqueue(this);
+            Jotihunt.getApiInstance().getBericht(FunctionType.NIEUWS, lastItem.getId()).enqueue(this);
         } else {
             /**
              * Refresh the items in the Adapter.
@@ -106,9 +129,10 @@ public class NieuwsView extends FrameLayout implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Nieuws.Item item = (Nieuws.Item)parent.getItemAtPosition(position);
+        Nieuws item = (Nieuws)parent.getItemAtPosition(position);
         if(item != null) {
             Jotihunt.getApiInstance().getBericht(FunctionType.NIEUWS, item.getId()).enqueue(this);
+            lastItem = item;
         }
     }
 
@@ -117,11 +141,16 @@ public class NieuwsView extends FrameLayout implements AdapterView.OnItemClickLi
         Bericht bericht =  response.body();
         if(bericht.hasContent()) {
             Bericht.Content content = bericht.getContents().get(0);
+
             WebView webView = getWebView();
-            webView.setVisibility(VISIBLE);
             webView.loadDataWithBaseURL("http://www.jotihunt.net", content.getContent(), "text/html", "UTF-8", "about:blank");
-            lastItemId = content.getId();
             isOpened = true;
+
+            TextView textView = getWebTitle();
+            textView.setText(lastItem.getTitle());
+
+            LinearLayout layout = getWebLayout();
+            layout.setVisibility(VISIBLE);
 
             NieuwsListView list = getNieuwsListView();
             list.setVisibility(INVISIBLE);
@@ -146,8 +175,8 @@ public class NieuwsView extends FrameLayout implements AdapterView.OnItemClickLi
             NieuwsListView list = getNieuwsListView();
             list.setVisibility(VISIBLE);
 
-            WebView webView = getWebView();
-            webView.setVisibility(INVISIBLE);
+            LinearLayout layout = getWebLayout();
+            layout.setVisibility(INVISIBLE);
             isOpened = false;
         }
     }

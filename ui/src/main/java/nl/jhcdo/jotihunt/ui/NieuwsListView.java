@@ -11,10 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import nl.jhcdo.jotihunt.Jotihunt;
-import nl.jhcdo.jotihunt.net.data.structures.Nieuws;
+import nl.jhcdo.jotihunt.net.model.Nieuws;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +41,7 @@ public class NieuwsListView extends ListView {
      * */
     public NieuwsListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.adapter = new Adapter(context, new ArrayList<Nieuws.Item>());
+        this.adapter = new Adapter(context, new ArrayList<Nieuws>());
         setAdapter(adapter);
     }
 
@@ -66,14 +65,14 @@ public class NieuwsListView extends ListView {
      * @since 21-10-2016
      * Adapter for the Nieuws.Item @see nl.jhcdo.jotihunt.net.data.structures.Nieuws.Item
      */
-    public class Adapter extends ArrayAdapter<Nieuws.Item> implements Callback<Nieuws> {
+    public class Adapter extends ArrayAdapter<Nieuws> implements Callback<Nieuws.Container> {
 
         protected OnRefreshCompletedListener listener;
 
         /**
          * Initializes a new instance of the Adapter.
          * */
-        public Adapter(Context context, ArrayList<Nieuws.Item> data) {
+        public Adapter(Context context, ArrayList<Nieuws> data) {
             super(context, 0, data);
         }
 
@@ -83,7 +82,7 @@ public class NieuwsListView extends ListView {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            Nieuws.Item item = getItem(position);
+            Nieuws item = getItem(position);
             if(item != null) {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.news_list_item, parent, false);
@@ -92,14 +91,14 @@ public class NieuwsListView extends ListView {
                 TextView title = (TextView) convertView.findViewById(R.id.title);
                 TextView date = (TextView) convertView.findViewById(R.id.date);
                 title.setText(item.getTitle());
-                date.setText(new Date(Long.parseLong(item.getDate()) * 1000).toString());
+                date.setText(item.getDate().toString());
             }
             return convertView;
         }
 
         @Override
-        public void onResponse(Call<Nieuws> call, Response<Nieuws> response) {
-            Nieuws nieuws = response.body();
+        public void onResponse(Call<Nieuws.Container> call, Response<Nieuws.Container> response) {
+            Nieuws.Container nieuws = response.body();
             if(nieuws != null) {
                 this.clear();
                 addAll(nieuws.getItems());
@@ -110,7 +109,7 @@ public class NieuwsListView extends ListView {
         }
 
         @Override
-        public void onFailure(Call<Nieuws> call, Throwable t) {
+        public void onFailure(Call<Nieuws.Container> call, Throwable t) {
             Log.e(TAG, t.toString(), t);
         }
 
