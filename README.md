@@ -202,3 +202,35 @@ public class LocationService extends LocationProviderService {
 }
 
 ```
+The library includes a ServiceManager class for handling the service, see the example below.
+```
+ServiceManager<LocationService, LocationService.Api>  manager = new ServiceManager<>(LocationService.class);
+        manager.add(new ServiceManager.Callback<LocationService.Api>() {
+
+            private Listener listener = new Listener();
+
+            @Override
+            public void onBind(LocationService.Api api) {
+                api.add(listener);
+                api.setRefresh(50);
+            }
+
+            @Override
+            public void onPreUnbind(LocationService.Api api) {
+                api.remove(listener);
+            }
+
+            class Listener implements LocationListener {
+
+                @Override
+                public void onLocationChanged(Location location) {
+                    /**
+                     * Do something
+                     * */
+                }
+            }
+
+        });
+        manager.bind(this, ServiceManager.Mode.StartAndBind);
+```
+
