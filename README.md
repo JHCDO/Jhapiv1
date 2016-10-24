@@ -204,7 +204,7 @@ public class LocationService extends LocationProviderService {
 ```
 The library includes a ServiceManager class for handling the service, see the example below.
 ```
-ServiceManager<LocationService, LocationService.Api>  manager = new ServiceManager<>(LocationService.class);
+        ServiceManager<LocationService, LocationService.Api>  manager = new ServiceManager<>(LocationService.class);
         manager.add(new ServiceManager.Callback<LocationService.Api>() {
 
             private Listener listener = new Listener();
@@ -232,5 +232,6 @@ ServiceManager<LocationService, LocationService.Api>  manager = new ServiceManag
 
         });
         manager.bind(this, ServiceManager.Mode.StartAndBind);
+
 ```
 
