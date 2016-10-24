@@ -27,32 +27,12 @@
 <h1>
 <a id="core" class="anchor" href="#core" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Core</h1>
 
-<p>The foundation of the Android Jotihunt API.</p>
+<p>The foundation of the Android Jotihunt API, it provides models for the API and the base enumeration.</p>
 
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
 
 <pre><code>compile 'nl.jhcdo.jotihunt:jotihunt-core:1.0'
-</code></pre>
-
-<h3>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
-
-<pre><code>Jotihunt.Api api = Jotihunt.getApiInstance();
-api.getNieuws().enqueue(new Callback&lt;Nieuws&gt;() {
-  @Override
-  public void onResponse(Call&lt;Nieuws&gt; call, Response&lt;Nieuws&gt; response) {
-    Nieuws nieuws = response.body();
-    for(Nieuws.Item item : nieuws.getItems()) {
-      Log.i("test", item.getTitle());
-    }    
-  }
-
-  @Override
-  public void onFailure(Call&lt;Nieuws&gt; call, Throwable t) {
-
-  }
-});
 </code></pre>
 
 <h1>
