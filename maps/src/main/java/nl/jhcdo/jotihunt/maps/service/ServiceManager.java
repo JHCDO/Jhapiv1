@@ -25,6 +25,11 @@ public class ServiceManager<S extends Service, B extends Binder> implements Serv
     private static final String TAG = "ServiceManager";
 
     /**
+     * The binder.
+     * */
+    protected IBinder binder;
+
+    /**
      * The type of the Service.
      * */
     protected Class<S> type;
@@ -100,12 +105,13 @@ public class ServiceManager<S extends Service, B extends Binder> implements Serv
      *
      * @param context The Context is used for unbinding the service.
      * */
+    @SuppressWarnings("unchecked")
     public void unbind(Context context) {
         Callback<B> callback;
         for(int i = 0; i < callbacks.size(); i++) {
             callback = callbacks.get(i);
             if(callback != null) {
-                callback.onPreUnbind();
+                callback.onPreUnbind((B)binder);
             }
         }
         context.unbindService(this);
@@ -115,6 +121,7 @@ public class ServiceManager<S extends Service, B extends Binder> implements Serv
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         bound = true;
+        binder = iBinder;
         Callback<B> callback;
         for(int i = 0; i < callbacks.size(); i++) {
             callback = callbacks.get(i);
@@ -137,7 +144,7 @@ public class ServiceManager<S extends Service, B extends Binder> implements Serv
      */
     public interface Callback<B extends Binder> {
         void onBind(B binder);
-        void onPreUnbind();
+        void onPreUnbind(B binder);
     }
 
     /**

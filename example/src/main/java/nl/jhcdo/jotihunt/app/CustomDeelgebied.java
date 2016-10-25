@@ -6,14 +6,12 @@ import android.graphics.Color;
 import nl.jhcdo.jotihunt.Team;
 import nl.jhcdo.jotihunt.maps.Deelgebied;
 
-
 /**
  * @author Dingenis Sieger Sinke
  * @version 1.0
  * @since 8-10-2016
- * Description...
+ * Example of a CustomDeelgebied
  */
-
 public class CustomDeelgebied extends Deelgebied {
 
     protected int color;
@@ -23,12 +21,31 @@ public class CustomDeelgebied extends Deelgebied {
 
         switch (team) {
             case ALPHA:
-                color = Color.RED;
+                color = Color.argb(255, 255, 0, 0);
                 break;
             case BRAVO:
-                color = Color.GREEN;
+                color = Color.argb(255, 0, 255, 0);
+                break;
+            case CHARLIE:
+                color = Color.argb(255, 0, 0, 255);
+                break;
+            case DELTA:
+                color = Color.argb(255, 0, 255, 255);
+                break;
+            case ECHO:
+                color = Color.argb(255, 255, 0, 255);
+                break;
+            case FOXTROT:
+                color = Color.argb(255, 255, 162, 0);
+                break;
+            case XRAY:
+                color = Color.argb(255, 0, 0, 0);
                 break;
         }
+    }
+
+    public int getColor() {
+        return color;
     }
 
     public static class CustomFactory extends Deelgebied.AbstractFactory<CustomDeelgebied> {
