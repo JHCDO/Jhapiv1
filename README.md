@@ -294,4 +294,6 @@ The library includes a ServiceManager class for handling the service, see the ex
         manager.bind(this, ServiceManager.Mode.StartAndBind);
 
 ```
-
+##NieuwsFragment & NieuwsView
+You can use the NieuwsFragment or the NieuwsView to display the news very easily.
+![Alt text](/images/news_refresh.png?raw=true "NieuwsFragment")
