@@ -127,6 +127,66 @@ CustomDeelgebied.CustomAdapter adapter = new CustomDeelgebied.CustomAdapter(this
 CustomDeelgebied custom = adapter.get(Team.ALPHA);
 int color = custom.getColor();
 ```
+When creating a Deelgebied, resources are loaded and cpu time is consumed. To avoid this place the Adapter in your Application class like below.
+
+```
+/**
+ * @author Dingenis Sieger Sinke
+ * @version 1.0
+ * @since 10-10-2016
+ * Example Application class
+ */
+public class JotihuntTest extends Application {
+
+    /**
+     * Instance of JotihuntTest.
+     * */
+    public static JotihuntTest instance;
+
+    /**
+     * Gets the instance of JotihuntTest.
+     * */
+    public static JotihuntTest getInstance() {
+        return instance;
+    }
+
+    /**
+     * The adapter.
+     * */
+    private CustomDeelgebied.CustomAdapter adapter;
+
+    /**
+     * Get the Adapter from the instance.
+     * */
+    public static CustomDeelgebied.CustomAdapter getDeelgebiedAdapter() {
+        return instance.adapter;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+
+        /**
+         * Create the adapter.
+         * */
+        adapter = new CustomDeelgebied.CustomAdapter(this);
+
+        /**
+         * Create a proxy for each team.
+         * */
+        adapter.proxyAll();
+
+    }
+}
+```
+This way you can acces the Deelgebieden anywhere and they're only loaded once. You can acces the Deelgebieden like so.
+
+```
+CustomDeelgebied.CustomAdapter adapter = JotihuntTest.getDeelgebiedAdapter();
+CustomDeelgebied alpha = adapter.get(Team.ALPHA);
+```
+
 ##Location Providing
 You can easily manange location providing by extending the LocationProviderService in the Maps library. Like below.
 
@@ -187,7 +247,7 @@ public class LocationService extends LocationProviderService {
      * @author Dingenis Sieger Sinke
      * @version 1.0
      * @since 12-10-2016
-     * Example for creating you're on API on top of the LocationProviderService.Api
+     * Example for creating you're own API on top of the LocationProviderService.Api
      */
     public class Api extends LocationProviderService.Api {
 
