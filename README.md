@@ -127,7 +127,8 @@ CustomDeelgebied.CustomAdapter adapter = new CustomDeelgebied.CustomAdapter(this
 CustomDeelgebied custom = adapter.get(Team.ALPHA);
 int color = custom.getColor();
 ```
-When creating a Deelgebied, resources are loaded and cpu time is consumed. To avoid this place the Adapter in your Application class like below.
+###Advised Usage
+When creating a Deelgebied, resources are loaded and cpu time is consumed. To avoid this place your Adapter in your Application class like below.
 
 ```
 /**
