@@ -297,3 +297,4 @@ The library includes a ServiceManager class for handling the service, see the ex
 ##NieuwsFragment & NieuwsView
 You can use the NieuwsFragment or the NieuwsView to display the news very easily.
 ![Alt text](/images/news_refresh.png?raw=true "NieuwsFragment")
+![Alt text](/images/news_item.png?raw=true "NieuwsFragment")
