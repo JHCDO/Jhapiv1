@@ -3,28 +3,29 @@ Project containing all the Jotihunt API V1 libaries and the example project
 
 # Installation
 --------
-##Core
+## Core
 Add the following line in your Gradle app file.
 
 ```
 compile 'nl.jhcdo.jotihunt:jotihunt-core:1.0'
 ```
-##Maps
+## Maps
 You can add the Maps library aswell, it adds Deelgebieden and map/location utils. Use the following line in your Gradle app file.
 
 ```
 compile 'nl.jhcdo.jotihunt:jotihunt-maps:1.0'
 ```
-##UI
+## UI
 You can also add the UI library, it provides views and fragments for displaying data
 
 ```
 compile 'nl.jhcdo.jotihunt:jotihunt-ui:1.0'
 ```
+
 # Usage
 --------
 
-##Networking
+## Networking
 ```
 Jotihunt.Api api = Jotihunt.getApiInstance();
 api.getNieuws().enqueue(new Callback<Nieuws>() {
@@ -43,16 +44,16 @@ api.getNieuws().enqueue(new Callback<Nieuws>() {
 });
 ```
 
-##Deelgebieden
+## Deelgebieden
 
-###Normal
+### Normal
 ```
 Deelgebied.Adapter<Deelgebied> adapter = Deelgebied.getDefaultAdapter(this);
 Deelgebied deelgebied = adapter.get(Team.ALPHA);
 ArrayList<LatLng> coordinates = deelgebied.getCoordinates();
 ```
 
-###Custom
+### Custom
 Do you want to extend the Deelgebied class? That is possible, you can create a custom Deelgebied like down here below.
 ```
 /**
@@ -127,7 +128,7 @@ CustomDeelgebied.CustomAdapter adapter = new CustomDeelgebied.CustomAdapter(this
 CustomDeelgebied custom = adapter.get(Team.ALPHA);
 int color = custom.getColor();
 ```
-###Advised Usage
+### Advised Usage
 When creating a Deelgebied, resources are loaded and cpu time is consumed. To avoid this place your Adapter in your Application class like below.
 
 ```
@@ -188,7 +189,7 @@ CustomDeelgebied.CustomAdapter adapter = JotihuntTest.getDeelgebiedAdapter();
 CustomDeelgebied alpha = adapter.get(Team.ALPHA);
 ```
 
-##Location Providing
+## Location Providing
 You can easily manange location providing by extending the LocationProviderService in the Maps library. Like below.
 
 ```
@@ -295,7 +296,7 @@ The library includes a ServiceManager class for handling the service, see the ex
         manager.bind(this, ServiceManager.Mode.StartAndBind);
 
 ```
-##NieuwsFragment & NieuwsView
+## NieuwsFragment & NieuwsView
 You can use the NieuwsFragment or the NieuwsView to display the news very easily.
 ![Alt text](/images/news_refresh.png?raw=true "NieuwsFragment")
 ![Alt text](/images/news_item.png?raw=true "NieuwsFragment")
